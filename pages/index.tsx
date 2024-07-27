@@ -1,44 +1,44 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Waveform from '../components/Waveform'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Waveform from '../components/Waveform';
 
 const Home = () => {
-  const [code, setCode] = useState<string>('')
-  const [audioPlaying, setAudioPlaying] = useState<boolean>(false)
-  const [clickHereVisible, setClickHereVisible] = useState<boolean>(true)
-  const router = useRouter()
+  const [code, setCode] = useState<string>('');
+  const [audioPlaying, setAudioPlaying] = useState<boolean>(false);
+  const [clickHereVisible, setClickHereVisible] = useState<boolean>(true);
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    router.push(`/show/${code}`)
-  }
+    e.preventDefault();
+    router.push(`/show/${code}`);
+  };
 
   const handlePlayAudio = () => {
-    const audio = document.getElementById('background-audio') as HTMLAudioElement
+    const audio = document.getElementById('background-audio') as HTMLAudioElement;
     audio.play().then(() => {
-      setAudioPlaying(true)
+      setAudioPlaying(true);
     }).catch((error) => {
-      console.error('Error playing audio:', error)
-    })
-  }
+      console.error('Error playing audio:', error);
+    });
+  };
 
   useEffect(() => {
     if (!audioPlaying) {
-      const audio = document.getElementById('background-audio') as HTMLAudioElement
+      const audio = document.getElementById('background-audio') as HTMLAudioElement;
       audio.play().then(() => {
-        setAudioPlaying(true)
+        setAudioPlaying(true);
       }).catch(() => {
         // Autoplay blocked, wait for user interaction
-      })
+      });
     }
-  }, [audioPlaying])
+  }, [audioPlaying]);
 
   const handleClickAnywhere = () => {
     if (!audioPlaying) {
-      handlePlayAudio()
+      handlePlayAudio();
     }
-    setClickHereVisible(false)
-  }
+    setClickHereVisible(false);
+  };
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center" onClick={handleClickAnywhere}>
@@ -50,7 +50,7 @@ const Home = () => {
           <div className="click-text">Click anywhere on the screen for some music 🎵</div>
         </div>
       )}
-      <h1 className="relative z-10 text-4xl md:text-5xl font-thin mb-8 typing-animation text-center">
+      <h1 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-thin mb-8 typing-animation text-center">
         Welcome to Music Share!
       </h1>
       <form onSubmit={handleSubmit} className="relative z-10 bg-white bg-opacity-30 backdrop-blur-md p-8 rounded-xl shadow-2xl space-y-6 max-w-sm w-full">
@@ -70,7 +70,7 @@ const Home = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
