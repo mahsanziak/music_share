@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Waveform from '../../components/Waveform';
 
 const ThankYouPage = () => {
   const router = useRouter();
@@ -11,13 +12,14 @@ const ThankYouPage = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center">
+      <Waveform />
       <audio id="background-audio" src="/Daddy_cool.mp3" loop autoPlay />
       <h1 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-thin mb-8 typing-animation text-center">
         Thank you for your request!
       </h1>
-      <div className="centered-box">
+      <div className="relative z-10 centered-box">
         <p className="text-black mb-4">Your request has been recorded and will be whispered into the performer's ear.</p>
-        <button onClick={() => router.push(`/show/${code}`)} className="mt-4 p-2 bg-blue-500 text-white rounded">
+        <button onClick={() => router.push(`/show/${code}`)} className="mt-4 p-4 bg-transparent text-white border border-darkGray rounded-lg hover:bg-darkGray hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-darkGray focus:ring-opacity-50 transition duration-300">
           Request Another Song
         </button>
       </div>

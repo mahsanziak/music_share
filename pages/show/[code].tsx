@@ -108,12 +108,11 @@ const ShowRequestPage = () => {
       <h1 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-thin mb-8 typing-animation text-center">
         Welcome to {show.name}!
       </h1>
-      <div className="centered-box">
-        <p className="text-black mb-4">{show.description}</p>
+      <div className="relative z-10 centered-box">
         <div ref={searchRef}>
           <Search onSelect={handleSelectSong} />
         </div>
-        <button onClick={handleRequestSong} className="mt-4 p-2 bg-custom-purple-light text-custom-purple-dark border border-custom-purple-dark rounded">
+        <button onClick={handleRequestSong} className="mt-4 p-4 bg-transparent text-white border border-darkGray rounded-lg hover:bg-darkGray hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-darkGray focus:ring-opacity-50 transition duration-300">
           Request Song
         </button>
         <ul className="mt-8 space-y-4 w-full max-w-md text-black">

@@ -21,12 +21,11 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
       if (debouncedQuery) {
         try {
           const spotifyResults = await fetch(`/api/searchSpotify?query=${debouncedQuery}`).then((res) => res.json());
-          console.log(spotifyResults); // Log the results to verify they include thumbnails
           const formattedResults = spotifyResults.slice(0, 5).map((song: any) => ({
             platform: 'Spotify',
-            thumbnail: song.thumbnail || '', // Ensure thumbnail is included
+            thumbnail: song.album?.images?.[0]?.url || '',
             name: song.name,
-            artist: song.artist || 'Unknown Artist',
+            artist: song.artists?.[0]?.name || 'Unknown Artist',
           }));
           setResults(formattedResults);
         } catch (error) {
@@ -59,7 +58,7 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
         placeholder="Search for a song"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="p-2 border rounded w-full text-black search-input"
+        className="input-box search-input"
       />
       {results.length > 0 && (
         <ul ref={resultsRef} className="mt-4 space-y-2 bg-white p-2 rounded shadow max-h-60 overflow-y-auto">

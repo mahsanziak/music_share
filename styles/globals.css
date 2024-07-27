@@ -105,15 +105,36 @@ body {
   overflow-y: auto;
 }
 
-/* Custom styles for the Request Song button */
-.bg-custom-purple-light {
-  background-color: #C9B6E4;
+/* Custom styles for buttons */
+.bg-darkGray {
+  background-color: #333;
 }
 
-.text-custom-purple-dark {
-  color: #4A2C71;
+.bg-transparent {
+  background-color: transparent;
+  border: 2px solid #333;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.border-custom-purple-dark {
-  border-color: #4A2C71;
+.bg-transparent:hover {
+  background-color: rgba(51, 51, 51, 0.8);
+  color: white;
+}
+
+/* Custom styles for the input box */
+.input-box {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #333;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  color: #000;
+  font-size: 1rem;
+  font-style: italic;
+  outline: none;
+}
+
+.input-box::placeholder {
+  color: rgba(0, 0, 0, 0.6);
 }
