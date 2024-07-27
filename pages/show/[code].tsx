@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import supabase from '../../lib/supabase';
 import Waveform from '../../components/Waveform';
 import Search from '../../components/Search';
 
 interface Show {
+  id: string; // Ensure this matches the type in your database
   name: string;
   description: string;
 }
@@ -13,27 +14,12 @@ const ShowRequestPage = () => {
   const router = useRouter();
   const { code } = router.query;
   const [show, setShow] = useState<Show | null>(null);
-  const [audioPlaying, setAudioPlaying] = useState<boolean>(false);
-  const [clickHereVisible, setClickHereVisible] = useState<boolean>(true);
   const [selectedSongs, setSelectedSongs] = useState<any[]>([]);
-  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (code) {
       fetchShow();
     }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setSelectedSongs([]);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
   }, [code]);
 
   const fetchShow = async () => {
@@ -49,80 +35,57 @@ const ShowRequestPage = () => {
     }
   };
 
-  const handlePlayAudio = () => {
-    const audio = document.getElementById('background-audio') as HTMLAudioElement | null;
-    if (audio) {
-      audio.play().then(() => {
-        setAudioPlaying(true);
-      }).catch((error) => {
-        console.error('Error playing audio:', error);
-      });
-    }
+  const handleSelectSong = (song: any) => {
+    setSelectedSongs((prevSongs) => [...prevSongs, song]);
   };
 
-  useEffect(() => {
-    if (!audioPlaying) {
-      const audio = document.getElementById('background-audio') as HTMLAudioElement | null;
-      if (audio) {
-        audio.play().then(() => {
-          setAudioPlaying(true);
-        }).catch(() => {
-          // Autoplay blocked, wait for user interaction
-        });
+  const handleConfirmRequest = async () => {
+    if (selectedSongs.length > 0 && show) {
+      try {
+        const requests = selectedSongs.map(song => ({
+          artist: song.artist,
+          song: song.name,
+          show_id: show.id,
+        }));
+
+        const { error } = await supabase
+          .from('requests')
+          .insert(requests);
+
+        if (error) {
+          throw error;
+        }
+        router.push(`/thankyou/${code}`);
+      } catch (error) {
+        console.error('Error inserting song requests:', error);
       }
     }
-  }, [audioPlaying]);
-
-  const handleClickAnywhere = () => {
-    if (!audioPlaying) {
-      handlePlayAudio();
-    }
-    setClickHereVisible(false);
-  };
-
-  const handleSelectSong = (platform: string, song: any) => {
-    setSelectedSongs([{ platform, ...song }]);
-    const searchInput = document.querySelector('.search-input') as HTMLInputElement;
-    if (searchInput) {
-      searchInput.value = `${song.name} (${song.artist})`;
-    }
-  };
-
-  const handleRequestSong = () => {
-    console.log(`Navigating to thank you page with code: ${code}`);
-    router.push(`/thankyou/${code}`);
   };
 
   if (!show) return <div>Loading...</div>;
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center" onClick={handleClickAnywhere}>
+    <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center">
       <Waveform />
-      <audio id="background-audio" src="/Daddy_cool.mp3" loop />
-      {clickHereVisible && (
-        <div className="absolute top-8 flex flex-col items-center space-y-4 text-center">
-          <div className="tap-animation">👆</div>
-          <div className="click-text">Click anywhere on the screen for some music 🎵</div>
-        </div>
-      )}
+      <audio id="background-audio" src="/Daddy_cool.mp3" loop autoPlay />
       <h1 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-thin mb-8 typing-animation text-center">
         Welcome to {show.name}!
       </h1>
-      <div className="relative z-10 centered-box">
-        <div ref={searchRef}>
-          <Search onSelect={handleSelectSong} />
-        </div>
-        <button onClick={handleRequestSong} className="mt-4 p-4 bg-transparent text-white border border-darkGray rounded-lg hover:bg-darkGray hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-darkGray focus:ring-opacity-50 transition duration-300">
-          Request Song
-        </button>
-        <ul className="mt-8 space-y-4 w-full max-w-md text-black">
+      <div className="relative z-10 centered-box w-full">
+        <Search onSelect={handleSelectSong} />
+        <ul className="mt-4 space-y-2">
           {selectedSongs.map((song, index) => (
-            <li key={index} className="flex justify-between items-center p-4 border rounded bg-white">
+            <li key={index} className="flex justify-between items-center p-2 border-b text-black bg-white rounded">
               {song.thumbnail && <img src={song.thumbnail} alt={`Thumbnail for ${song.name}`} className="w-12 h-12 rounded mr-4" />}
-              <span>{song.name} ({song.platform})</span>
+              <span className="flex-grow">{song.name} ({song.artist})</span>
             </li>
           ))}
         </ul>
+        {selectedSongs.length > 0 && (
+          <button onClick={handleConfirmRequest} className="mt-4 p-2 bg-green-500 text-white rounded">
+            Confirm Requests
+          </button>
+        )}
       </div>
     </div>
   );

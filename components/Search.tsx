@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void }) => {
+const Search = ({ onSelect }: { onSelect: (song: any) => void }) => {
   const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<any[]>([]);
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
@@ -23,9 +23,9 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
           const spotifyResults = await fetch(`/api/searchSpotify?query=${debouncedQuery}`).then((res) => res.json());
           const formattedResults = spotifyResults.slice(0, 5).map((song: any) => ({
             platform: 'Spotify',
-            thumbnail: song.album?.images?.[0]?.url || '',
+            thumbnail: song.thumbnail || '',
             name: song.name,
-            artist: song.artists?.[0]?.name || 'Unknown Artist',
+            artist: song.artist || 'Unknown Artist',
           }));
           setResults(formattedResults);
         } catch (error) {
@@ -51,6 +51,11 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
     };
   }, []);
 
+  const handleSelect = (result: any) => {
+    onSelect(result);
+    setResults([]);
+  };
+
   return (
     <div>
       <input
@@ -58,7 +63,7 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
         placeholder="Search for a song"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="input-box search-input"
+        className="w-full p-4 border border-darkGray rounded-lg focus:outline-none focus:ring-0 focus:border-darkGray text-black bg-white bg-opacity-50 placeholder-gray-600 placeholder-italic search-input"
       />
       {results.length > 0 && (
         <ul ref={resultsRef} className="mt-4 space-y-2 bg-white p-2 rounded shadow max-h-60 overflow-y-auto">
@@ -66,7 +71,7 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
             <li key={index} className="flex justify-between items-center p-2 border-b text-black">
               {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail for ${result.name}`} className="w-12 h-12 rounded mr-4" />}
               <span className="flex-grow">{result.name} ({result.artist})</span>
-              <button onClick={() => { onSelect(result.platform, result); setResults([]); }} className="ml-4 p-2 bg-green-500 text-white rounded">
+              <button onClick={() => handleSelect(result)} className="ml-4 p-2 bg-green-500 text-white rounded">
                 Select
               </button>
             </li>
