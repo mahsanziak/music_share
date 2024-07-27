@@ -1,20 +1,41 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        primary: '#4A90E2',
+        darkGray: '#4B4B4B', // Custom dark grey color
+      },
+      keyframes: {
+        'gradient-shift': {
+          '0%, 100%': {
+            backgroundPosition: '0% 50%',
+          },
+          '50%': {
+            backgroundPosition: '100% 50%',
+          },
+        },
+        typing: {
+          from: { width: '0%' },
+          to: { width: '22ch' },
+        },
+        blinkCaret: {
+          '0%, 100%': { borderColor: 'transparent' },
+          '50%': { borderColor: 'black' },
+        },
+      },
+      animation: {
+        'gradient-shift': 'gradient-shift 15s linear infinite',
+        typing: 'typing 2s steps(30, end) forwards, blinkCaret .75s step-end infinite',
       },
     },
   },
   plugins: [],
-};
-export default config;
+}
+
+export default config

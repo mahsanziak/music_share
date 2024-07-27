@@ -1,0 +1,79 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles for typing effect */
+.typing-animation {
+  overflow: hidden;
+  border-right: .15em solid white;
+  white-space: nowrap;
+  animation: typing 2s steps(30, end) forwards, blinkCaret .75s step-end infinite;
+  display: inline-block;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 22ch; }
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent; }
+  50% { border-color: white; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes tap {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.tap-animation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 2s forwards, tap 1s infinite;
+  animation-delay: 2s; /* Delay to match typing animation duration */
+  opacity: 0;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.click-text {
+  animation: fadeIn 2s forwards;
+  animation-delay: 2s; /* Delay to match typing animation duration */
+  opacity: 0;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .waveform-bar {
+    height: 50px; /* Smaller height for mobile screens */
+  }
+}
+
+@media (min-width: 641px) {
+  .waveform-bar {
+    height: 150px; /* Larger height for larger screens */
+  }
+}
+
+body {
+  background: linear-gradient(270deg, #4A90E2, #D0021B, #F5A623, #50E3C2);
+  background-size: 600% 600%;
+  animation: gradient-shift 15s linear infinite;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+  font-style: italic;
+}
