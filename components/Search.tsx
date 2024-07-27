@@ -19,17 +19,38 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
   useEffect(() => {
     const handleSearch = async () => {
       if (debouncedQuery) {
-        const spotifyResults = await fetch(`/api/searchSpotify?query=${debouncedQuery}`).then((res) => res.json());
-        setResults(spotifyResults.map((song: any) => ({ 
-          platform: 'Spotify', 
-          thumbnail: song.album?.images?.[0]?.url || '', 
-          ...song 
-        })));
+        try {
+          const spotifyResults = await fetch(`/api/searchSpotify?query=${debouncedQuery}`).then((res) => res.json());
+          console.log(spotifyResults); // Log the results to verify they include thumbnails
+          const formattedResults = spotifyResults.slice(0, 5).map((song: any) => ({
+            platform: 'Spotify',
+            thumbnail: song.thumbnail || '', // Ensure thumbnail is included
+            name: song.name,
+            artist: song.artist || 'Unknown Artist',
+          }));
+          setResults(formattedResults);
+        } catch (error) {
+          console.error('Error fetching Spotify results:', error);
+          setResults([]);
+        }
       }
     };
 
     handleSearch();
   }, [debouncedQuery]);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (resultsRef.current && !resultsRef.current.contains(event.target as Node)) {
+      setResults([]);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div>
@@ -41,7 +62,7 @@ const Search = ({ onSelect }: { onSelect: (platform: string, song: any) => void 
         className="p-2 border rounded w-full text-black search-input"
       />
       {results.length > 0 && (
-        <ul ref={resultsRef} className="mt-4 space-y-2 bg-white p-2 rounded shadow">
+        <ul ref={resultsRef} className="mt-4 space-y-2 bg-white p-2 rounded shadow max-h-60 overflow-y-auto">
           {results.map((result, index) => (
             <li key={index} className="flex justify-between items-center p-2 border-b text-black">
               {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail for ${result.name}`} className="w-12 h-12 rounded mr-4" />}

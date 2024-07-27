@@ -88,12 +88,17 @@ const ShowRequestPage = () => {
     }
   };
 
+  const handleRequestSong = () => {
+    console.log(`Navigating to thank you page with code: ${code}`);
+    router.push(`/thankyou/${code}`);
+  };
+
   if (!show) return <div>Loading...</div>;
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center" onClick={handleClickAnywhere}>
       <Waveform />
-      <audio id="background-audio" src="/background-music.mp3" loop />
+      <audio id="background-audio" src="/Daddy_cool.mp3" loop />
       {clickHereVisible && (
         <div className="absolute top-8 flex flex-col items-center space-y-4 text-center">
           <div className="tap-animation">👆</div>
@@ -108,7 +113,9 @@ const ShowRequestPage = () => {
         <div ref={searchRef}>
           <Search onSelect={handleSelectSong} />
         </div>
-        <button className="mt-4 p-2 bg-blue-500 text-white rounded">Request Song</button>
+        <button onClick={handleRequestSong} className="mt-4 p-2 bg-custom-purple-light text-custom-purple-dark border border-custom-purple-dark rounded">
+          Request Song
+        </button>
         <ul className="mt-8 space-y-4 w-full max-w-md text-black">
           {selectedSongs.map((song, index) => (
             <li key={index} className="flex justify-between items-center p-4 border rounded bg-white">

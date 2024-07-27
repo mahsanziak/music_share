@@ -98,3 +98,22 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+/* Styles for the song list */
+.max-h-60 {
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+/* Custom styles for the Request Song button */
+.bg-custom-purple-light {
+  background-color: #C9B6E4;
+}
+
+.text-custom-purple-dark {
+  color: #4A2C71;
+}
+
+.border-custom-purple-dark {
+  border-color: #4A2C71;
+}
