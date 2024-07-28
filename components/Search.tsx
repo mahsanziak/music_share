@@ -54,6 +54,7 @@ const Search = ({ onSelect }: { onSelect: (song: any) => void }) => {
   const handleSelect = (result: any) => {
     onSelect(result);
     setResults([]);
+    setQuery(''); // Clear the search bar
   };
 
   return (

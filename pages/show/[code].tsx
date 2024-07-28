@@ -33,6 +33,7 @@ const ShowRequestPage = () => {
       setShow(data);
     } else {
       console.error(error);
+      router.push(`/?invalidCode=${code}`);
     }
   };
 
