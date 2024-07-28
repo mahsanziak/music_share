@@ -66,9 +66,9 @@ const Search = ({ onSelect }: { onSelect: (song: any) => void }) => {
         className="w-full p-4 border border-darkGray rounded-lg focus:outline-none focus:ring-0 focus:border-darkGray text-black bg-white bg-opacity-50 placeholder-gray-600 placeholder-italic search-input"
       />
       {results.length > 0 && (
-        <ul ref={resultsRef} className="mt-4 space-y-2 bg-white p-2 rounded shadow max-h-60 overflow-y-auto">
+        <ul ref={resultsRef} className="mt-4 space-y-2 p-2 rounded shadow max-h-60 overflow-y-auto">
           {results.map((result, index) => (
-            <li key={index} className="flex justify-between items-center p-2 border-b text-black">
+            <li key={index} className="flex justify-between items-center p-2 border-b rounded text-white transparent-background">
               {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail for ${result.name}`} className="w-12 h-12 rounded mr-4" />}
               <span className="flex-grow">{result.name} ({result.artist})</span>
               <button onClick={() => handleSelect(result)} className="ml-4 p-2 bg-green-500 text-white rounded">

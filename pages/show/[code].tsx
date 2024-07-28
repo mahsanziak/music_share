@@ -15,6 +15,7 @@ const ShowRequestPage = () => {
   const { code } = router.query;
   const [show, setShow] = useState<Show | null>(null);
   const [selectedSongs, setSelectedSongs] = useState<any[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (code) {
@@ -36,7 +37,12 @@ const ShowRequestPage = () => {
   };
 
   const handleSelectSong = (song: any) => {
+    if (selectedSongs.length >= 3) {
+      setErrorMessage('You can only select up to 3 songs.');
+      return;
+    }
     setSelectedSongs((prevSongs) => [...prevSongs, song]);
+    setErrorMessage(null); // Clear the error message if a song is successfully added
   };
 
   const handleConfirmRequest = async () => {
@@ -75,7 +81,7 @@ const ShowRequestPage = () => {
         <Search onSelect={handleSelectSong} />
         <ul className="mt-4 space-y-2">
           {selectedSongs.map((song, index) => (
-            <li key={index} className="flex justify-between items-center p-2 border-b text-black bg-white rounded">
+            <li key={index} className="flex justify-between items-center p-2 border-b text-white rounded transparent-background">
               {song.thumbnail && <img src={song.thumbnail} alt={`Thumbnail for ${song.name}`} className="w-12 h-12 rounded mr-4" />}
               <span className="flex-grow">{song.name} ({song.artist})</span>
             </li>
@@ -86,6 +92,7 @@ const ShowRequestPage = () => {
             Confirm Requests
           </button>
         )}
+        {errorMessage && <div className="mt-4 text-red-500">{errorMessage}</div>}
       </div>
     </div>
   );

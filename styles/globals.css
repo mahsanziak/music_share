@@ -138,3 +138,9 @@ body {
 .input-box::placeholder {
   color: rgba(0, 0, 0, 0.6);
 }
+
+/* New class for transparent background for song list items */
+.transparent-background {
+  background: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+  color: white;
+}
