@@ -18,7 +18,7 @@ const ThankYouPage = () => {
         Thank you for your request!
       </h1>
       <div className="relative z-10 centered-box">
-        <p className="text-black mb-4">Your request has been recorded and will be whispered into the performer's ear.</p>
+        <p className="text-black mb-4">Your request has been recorded and will be whispered into the performer&apos;s ear.</p>
         <button onClick={() => router.push(`/show/${code}`)} className="mt-4 p-4 bg-transparent text-white border border-darkGray rounded-lg hover:bg-darkGray hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-darkGray focus:ring-opacity-50 transition duration-300">
           Request Another Song
         </button>

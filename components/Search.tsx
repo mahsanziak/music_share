@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 const Search = ({ onSelect }: { onSelect: (song: any) => void }) => {
   const [query, setQuery] = useState<string>('');
@@ -70,7 +71,7 @@ const Search = ({ onSelect }: { onSelect: (song: any) => void }) => {
         <ul ref={resultsRef} className="mt-4 space-y-2 p-2 rounded shadow max-h-60 overflow-y-auto">
           {results.map((result, index) => (
             <li key={index} className="flex justify-between items-center p-2 border-b rounded text-white transparent-background">
-              {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail for ${result.name}`} className="w-12 h-12 rounded mr-4" />}
+              {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail for ${result.name}`} width={48} height={48} className="w-12 h-12 rounded mr-4" />}
               <span className="flex-grow">{result.name} ({result.artist})</span>
               <button onClick={() => handleSelect(result)} className="ml-4 p-2 bg-green-500 text-white rounded">
                 Select
