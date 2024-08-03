@@ -13,7 +13,7 @@ const ThankYouPage = () => {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center">
       <Waveform />
-      <audio id="background-audio" src="/Daddy_cool.mp3" loop autoPlay />
+      <audio id="background-audio" src="/Crazy Frog - Axel F (Official Video).mp3" loop autoPlay />
       <h1 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-thin mb-8 typing-animation text-center">
         Thank you for your request!
       </h1>
