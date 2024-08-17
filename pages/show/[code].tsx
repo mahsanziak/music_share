@@ -5,7 +5,7 @@ import Waveform from '../../components/Waveform';
 import Search from '../../components/Search';
 
 interface Show {
-  id: string; // Ensure this matches the type in your database
+  id: string;
   name: string;
   description: string;
 }
@@ -43,7 +43,7 @@ const ShowRequestPage = () => {
       return;
     }
     setSelectedSongs((prevSongs) => [...prevSongs, song]);
-    setErrorMessage(null); // Clear the error message if a song is successfully added
+    setErrorMessage(null);
   };
 
   const handleConfirmRequest = async () => {
@@ -73,8 +73,7 @@ const ShowRequestPage = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen animate-gradient-shift text-white space-y-8 px-4 text-center">
-      <Waveform />
-      <audio id="background-audio" src="/Crazy Frog - Axel F (Official Video).mp3" loop autoPlay />
+      <Waveform /> {/* Waveform now resembles a song's frequency pattern */}
       <h1 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-thin mb-8 typing-animation text-center">
         Welcome to {show.name}!
       </h1>

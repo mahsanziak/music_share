@@ -18,7 +18,7 @@ const useAudioVisualizer = (audioElementId: string) => {
         source.connect(analyser);
         analyser.connect(audioContext.destination);
 
-        analyser.fftSize = 1024; // Increase FFT size for more frequency bins
+        analyser.fftSize = 1024;
         const bufferLength = analyser.frequencyBinCount;
         const dataArray = new Uint8Array(bufferLength);
 
